@@ -1,0 +1,81 @@
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: linear-gradient(#545454, #ffffff);
+  padding-top: 50px;
+}
+
+/* Логотип */
+.logo {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 330px;
+  height: 160px;
+}
+
+/* Блок с заголовком и сеткой */
+.contentBlock {
+  margin-top: 220px; /* отступ сверху */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Заголовок */
+.title {
+  font-family: 'Mulish', sans-serif;
+  font-weight: 400;
+  font-size: 68px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 300px; /* от заголовка до сетки карточек */
+  line-height: 1.1;
+}
+
+.grid {
+	margin-right: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 380px); /* 2 карточки в строке */
+  column-gap: 600px; /* горизонтальный отступ между карточками */
+  row-gap: 50px; /* вертикальный отступ между строками */
+}
+
+/* Шахматная сетка: смещаем нечётные строки */
+.grid > *:nth-child(4n+3),
+.grid > *:nth-child(4n+4) {
+  margin-left: 400px; /* половина нового column-gap, чтобы смещать вторую строку под разрывы первой */
+}
+
+/* Кнопка НАЗАД */
+.backButton {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 385px;
+  height: 105px;
+  border-radius: 100px;
+  background-color: #33231C;
+  color: #fff;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateX(-50%) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  }
+}

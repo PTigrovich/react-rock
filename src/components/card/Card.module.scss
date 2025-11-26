@@ -1,0 +1,65 @@
+.card {
+  position: relative;
+  width: 380px;
+  height: 285px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Ореол/свет вокруг карточки */
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  filter: blur(40px);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.topBlock {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 10px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.image {
+  flex: 1 1 auto;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.separator {
+  height: 2px;
+  width: 100%;
+  background-color: rgba(0,0,0,0.1);
+  margin-top: 10px;
+}
+
+.bottomBlock {
+  flex: 0 0 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: 'Mulish', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #393939;
+  text-align: center;
+}
