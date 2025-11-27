@@ -1,25 +1,70 @@
-import { useParams } from 'react-router-dom';
-import stones from '../../data/stones';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ViewPage.module.scss';
+import { getRockById } from '../../api/rocksApi';
 
 const ViewPage = () => {
     const { id } = useParams();
-    const stone = stones.find(s => s.id === Number(id));
-
-    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const [stone, setStone] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-    return (
-        <div className={styles.wrapper}>
+    useEffect(() => {
+        let isActive = true;
+
+        const loadRock = async () => {
+            setLoading(true);
+            setError('');
+            try {
+                const data = await getRockById(id);
+                if (isActive) {
+                    setStone(data);
+                }
+            } catch (err) {
+                if (isActive) {
+                    setError(err.message || 'Камень не найден');
+                    setStone(null);
+                }
+            } finally {
+                if (isActive) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        if (id) {
+            loadRock();
+        }
+
+        return () => {
+            isActive = false;
+        };
+    }, [id]);
+
+    const descriptionLines = stone?.description ? stone.description.split('\n') : [];
+
+    const renderContent = () => {
+        if (loading) {
+            return <p className={styles.status}>Загружаем информацию...</p>;
+        }
+
+        if (error || !stone) {
+            return <p className={styles.status}>{error || 'Камень не найден'}</p>;
+        }
+
+        return (
             <div className={styles.blocksContainer}>
                 <div className={styles.block1}>
                     <div className={styles.block1Content}>{stone.name}</div>
                 </div>
 
                 <div className={styles.gallery}>
-                    <div className={styles.gallery_view}></div>
+                    <div
+                        className={styles.gallery_view}
+                        style={stone.image ? { backgroundImage: `url(${stone.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+                    ></div>
 
                     {open ? (
                         <button className={styles.gallery_button} onClick={() => setOpen(false)}>
@@ -32,12 +77,18 @@ const ViewPage = () => {
                     )}
                 </div>
             </div>
+        );
+    };
+
+    return (
+        <div className={styles.wrapper}>
+            {renderContent()}
 
             <button className={styles.backButton} onClick={() => navigate(-1)}>
                 НАЗАД
             </button>
 
-            {open && (
+            {stone && open && (
                 <div className={styles.overlay}>
                     <div className={styles.panel}>
                         <button className={styles.closeX} onClick={() => setOpen(false)}>
@@ -45,7 +96,7 @@ const ViewPage = () => {
                         </button>
 
                         <h3>{stone.name}</h3>
-                        {stone.description.split('\n').map((line, idx) => (
+                        {descriptionLines.map((line, idx) => (
                             <p key={idx} style={{ marginTop: idx === 0 ? 0 : '30px' }}>
                                 {line}
                             </p>
