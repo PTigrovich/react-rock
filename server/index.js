@@ -6,6 +6,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, '../data/rocks.json');
+const BUILD_DIR = path.join(__dirname, '../build');
 
 // Middleware
 app.use(cors());
@@ -17,29 +18,7 @@ async function initializeData() {
     await fs.ensureDir(path.dirname(DATA_FILE));
 
     if (!(await fs.pathExists(DATA_FILE))) {
-      const initialData = [
-        {
-          id: 1,
-          name: 'Аметист',
-          description: 'Фиолетовая разновидность кварца, известная своими красивыми кристаллами.',
-          image: '/api/placeholder/300/300',
-          modelPath: '/models/amethyst.glb',
-        },
-        {
-          id: 2,
-          name: 'Малахит',
-          description: 'Фиолетовая разновидность кварца, известная своими красивыми кристаллами.',
-          image: '/api/placeholder/300/300',
-          modelPath: '/models/amethyst.glb',
-        },
-        {
-          id: 3,
-          name: 'Малахит',
-          description: 'Фиолетовая разновидность кварца, известная своими красивыми кристаллами.',
-          image: '/api/placeholder/300/300',
-          modelPath: '/models/amethyst.glb',
-        },
-      ];
+      const initialData = [];
 
       await fs.writeJson(DATA_FILE, initialData, { spaces: 2 });
       console.log('✅ Инициализирован файл данных с примерами камней');
@@ -166,6 +145,16 @@ app.delete('/api/rocks/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Ошибка удаления камня' });
   }
+});
+
+// Раздача статических файлов из build (CSS, JS, изображения и т.д.)
+// Размещено после API маршрутов, чтобы API запросы обрабатывались первыми
+app.use(express.static(BUILD_DIR));
+
+// Fallback для SPA роутинга - все не-API запросы возвращают index.html
+// Должен быть последним, чтобы обрабатывать все маршруты, не обработанные выше
+app.get('*', (req, res) => {
+  res.sendFile(path.join(BUILD_DIR, 'index.html'));
 });
 
 // Запуск сервера
