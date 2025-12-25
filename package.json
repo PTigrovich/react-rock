@@ -17,12 +17,25 @@
     "sass": "^1.94.2",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "server": "node server/index.js",
     "build": "react-scripts build",
+    "build:server:win": "pkg server/index.js --targets node18-win-x64 --output build/launch.exe",
+    "build:server:mac": "pkg server/index.js --targets node18-macos-x64 --output build/server",
+    "build:win": "react-scripts build && npm run build:server:win",
+    "build:mac": "react-scripts build && npm run build:server:mac",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "pkg": {
+    "assets": [
+      "data/**/*"
+    ],
+    "outputPath": "build"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
