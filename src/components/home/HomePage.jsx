@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../card/Card';
 import styles from './HomePage.module.scss';
 import { getRocks } from '../../api/rocksApi';
+import { sendReleCommand } from '../../utils';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -26,6 +27,8 @@ const HomePage = () => {
 
     useEffect(() => {
         loadRocks();
+        // В главном меню включаем общую подсветку (позиция 17)
+        sendReleCommand(17);
     }, [loadRocks]);
 
     const hasRocks = rocks.length > 0;

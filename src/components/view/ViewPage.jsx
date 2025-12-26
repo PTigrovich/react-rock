@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ViewPage.module.scss';
 import { getRockById } from '../../api/rocksApi';
+import { sendReleCommand } from '../../utils';
 
 const ViewPage = () => {
     const { id } = useParams();
@@ -36,6 +37,11 @@ const ViewPage = () => {
 
         if (id) {
             loadRock();
+            // Включаем подсветку для конкретного камня (позиция = ID камня)
+            const rockId = parseInt(id, 10);
+            if (rockId >= 1 && rockId <= 16) {
+                sendReleCommand(rockId);
+            }
         }
 
         return () => {
