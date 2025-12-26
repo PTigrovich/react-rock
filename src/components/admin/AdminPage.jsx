@@ -48,6 +48,7 @@ const AdminPage = () => {
   const startEdit = (rock) => {
     setEditingId(rock.id);
     setFormValues({
+      id: rock.id || '',
       name: rock.name || '',
       image: rock.image || '',
       description: rock.description || '',
@@ -84,6 +85,18 @@ const AdminPage = () => {
 
     try {
       if (editingId) {
+        // При редактировании добавляем ID в payload, если он был изменен
+        if (formValues.id) {
+          const newId = parseInt(formValues.id);
+          if (isNaN(newId) || newId < 1) {
+            setFormError('ID должен быть положительным числом');
+            setSaving(false);
+            return;
+          }
+          if (newId !== editingId) {
+            payload.id = newId;
+          }
+        }
         await updateRock(editingId, payload);
         setSuccessMessage('Камень обновлён');
       } else {
@@ -143,6 +156,20 @@ const AdminPage = () => {
         <section className={styles.formSection}>
           <h2>{editingId ? 'Редактировать камень' : 'Добавить новый камень'}</h2>
           <form className={styles.form} onSubmit={handleSubmit}>
+            {editingId && (
+              <label className={styles.label}>
+                ID
+                <input
+                  type="number"
+                  name="id"
+                  value={formValues.id}
+                  onChange={handleInputChange}
+                  placeholder="1"
+                  min="1"
+                />
+              </label>
+            )}
+
             <label className={styles.label}>
               Название
               <input
