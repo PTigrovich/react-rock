@@ -1,12 +1,13 @@
 .wrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 6vh - 4vh); /* 100vh минус padding-top/bottom и возможный gap */
   display: flex;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(#545454, #ffffff);
-  padding: 3vh 5vw;
-  gap: 4vh;
+  padding: 1vh 2vw;
+  gap: 0vh;
+  box-sizing: border-box;
 }
 
 /* Логотип */
@@ -25,7 +26,7 @@
   align-items: center;
   width: 100%;
   max-width: 100%;
-  gap: 4vh;
+  gap: 3.5vh;
   flex: 1;
 }
 
@@ -39,15 +40,17 @@
   line-height: 1.1;
   width: 100%;
   max-width: 100%;
+  
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 3vh 2vw;
+  gap: 1.5vh 1vw;
   width: 100%;
   max-width: 100%;
   align-items: start;
+  padding-right: 10vw;
 }
 
 /* Шахматный порядок: смещаем нечётные строки (3-й, 4-й, 7-й, 8-й элементы и т.д.) */
@@ -92,14 +95,14 @@
   width: 100%;
   max-width: 100%;
   margin-top: auto;
-  padding-top: 4vh;
+  padding-top: 2vh;
 }
 
 .backButton,
 .adminLink {
   max-width: 100%;
-  width: 100%;
-  padding: 2.5vh 4vw;
+  width: 20%;
+  padding: 1vh 4vw;
   border-radius: 100px;
   background-color: #33231C;
   color: #fff;
