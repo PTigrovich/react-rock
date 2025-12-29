@@ -4,74 +4,79 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   background: linear-gradient(#545454, #ffffff);
-  padding-top: 50px;
+  padding: 3vh 5vw;
+  gap: 4vh;
 }
 
 /* Логотип */
 .logo {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  width: 330px;
-  height: 160px;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  align-self: flex-start;
 }
 
 /* Блок с заголовком и сеткой */
 .contentBlock {
-  margin-top: 220px; /* отступ сверху */
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  gap: 4vh;
+  flex: 1;
 }
 
 /* Заголовок */
 .title {
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: 68px;
+  font-size: clamp(32px, 8vw, 68px);
   color: #ffffff;
   text-align: center;
-  margin-bottom: 300px; /* от заголовка до сетки карточек */
   line-height: 1.1;
+  width: 100%;
+  max-width: 100%;
 }
 
 .grid {
-	margin-right: 400px;
   display: grid;
-  grid-template-columns: repeat(2, 380px); /* 2 карточки в строке */
-  column-gap: 600px; /* горизонтальный отступ между карточками */
-  row-gap: 50px; /* вертикальный отступ между строками */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3vh 2vw;
+  width: 100%;
+  max-width: 100%;
+  align-items: start;
 }
 
-/* Шахматная сетка: смещаем нечётные строки */
+/* Шахматный порядок: смещаем нечётные строки (3-й, 4-й, 7-й, 8-й элементы и т.д.) */
 .grid > *:nth-child(4n+3),
 .grid > *:nth-child(4n+4) {
-  margin-left: 400px; /* половина нового column-gap, чтобы смещать вторую строку под разрывы первой */
+  margin-left: calc(25% + 1vw);
 }
 
 .status {
-  margin-top: 40px;
   font-family: 'Mulish', sans-serif;
-  font-size: 32px;
+  font-size: clamp(20px, 4.5vw, 32px);
   color: #fff;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2vh;
+  align-items: center;
 }
 
 .retryButton {
-  width: 320px;
-  height: 80px;
+  max-width: 100%;
+  width: 100%;
+  padding: 2vh 4vw;
   border-radius: 60px;
   background-color: #ffffff;
   color: #33231C;
-  font-size: 28px;
+  font-size: clamp(20px, 4vw, 28px);
   border: none;
   cursor: pointer;
-  align-self: center;
   transition: transform 0.2s ease;
 
   &:hover {
@@ -80,24 +85,27 @@
 }
 
 .actions {
-  position: absolute;
-  bottom: 70px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  gap: 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+  width: 100%;
+  max-width: 100%;
+  margin-top: auto;
+  padding-top: 4vh;
 }
 
 .backButton,
 .adminLink {
-  width: 320px;
-  height: 105px;
+  max-width: 100%;
+  width: 100%;
+  padding: 2.5vh 4vw;
   border-radius: 100px;
   background-color: #33231C;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: 32px;
+  font-size: clamp(24px, 5vw, 32px);
   text-align: center;
   border: none;
   cursor: pointer;
@@ -117,61 +125,4 @@
 .adminLink {
   background-color: #ffffff;
   color: #33231C;
-}
-
-/* Адаптивность для больших экранов */
-@media (min-width: 2560px) {
-  .wrapper {
-    padding-top: 80px;
-  }
-
-  .logo {
-    top: 80px;
-    left: 80px;
-    width: 450px;
-    height: 220px;
-  }
-
-  .contentBlock {
-    margin-top: 300px;
-  }
-
-  .title {
-    font-size: 96px;
-    margin-bottom: 400px;
-  }
-
-  .grid {
-    margin-right: 800px;
-    grid-template-columns: repeat(2, 480px);
-    column-gap: 800px;
-    row-gap: 60px;
-  }
-
-  .grid > *:nth-child(4n+3),
-  .grid > *:nth-child(4n+4) {
-    margin-left: 600px;
-  }
-
-  .status {
-    font-size: 40px;
-  }
-
-  .retryButton {
-    width: 380px;
-    height: 100px;
-    font-size: 32px;
-  }
-
-  .actions {
-    bottom: 100px;
-    gap: 60px;
-  }
-
-  .backButton,
-  .adminLink {
-    width: 400px;
-    height: 120px;
-    font-size: 36px;
-  }
 }

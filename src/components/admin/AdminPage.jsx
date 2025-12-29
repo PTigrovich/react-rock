@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './AdminPage.module.scss';
 import { createRock, getRocks, updateRock } from '../../api/rocksApi';
+import ModelViewer from '../view/Model/ModelViewer';
 
 const emptyForm = {
   name: '',
@@ -56,6 +57,7 @@ const AdminPage = () => {
     });
     setFormError('');
     setSuccessMessage('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const resetForm = () => {
@@ -119,12 +121,66 @@ const AdminPage = () => {
           <p className={styles.badge}>Админ-панель</p>
           <h1>Коллекция камней</h1>
         </div>
-        <Link to="/" className={styles.homeLink}>
+        <Link to='/' className={styles.homeLink}>
           ← Вернуться в галерею
         </Link>
       </header>
 
       <div className={styles.layout}>
+        <section className={styles.formSection}>
+          <h2>{editingId ? 'Редактировать камень' : 'Добавить новый камень'}</h2>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            {editingId && (
+              <label className={styles.label}>
+                ID
+                <input type='number' name='id' value={formValues.id} onChange={handleInputChange} placeholder='1' min='1' />
+              </label>
+            )}
+
+            <label className={styles.label}>
+              Название
+              <input type='text' name='name' value={formValues.name} onChange={handleInputChange} placeholder='Например, Аметист' />
+            </label>
+
+            <label className={styles.label}>
+              Ссылка на изображение
+              <input type='text' name='image' value={formValues.image} onChange={handleInputChange} placeholder='/images/rock1.png' />
+            </label>
+
+            <label className={styles.label}>
+              Описание
+              <textarea name='description' value={formValues.description} onChange={handleInputChange} rows={6} placeholder='Краткое описание минерала...' />
+            </label>
+
+            <label className={styles.label}>
+              Путь к 3D модели (опционально)
+              <input type='text' name='modelPath' value={formValues.modelPath} onChange={handleInputChange} placeholder='/models/amethyst.glb' />
+            </label>
+
+            {(formValues.modelPath?.trim() || formValues.image?.trim()) && (
+              <div className={styles.preview}>
+                <h3 className={styles.previewTitle}>Превью</h3>
+                <div className={styles.previewContainer}>
+                  <ModelViewer modelPath={formValues.modelPath?.trim() || null} imagePath={formValues.image?.trim() || null} />
+                </div>
+              </div>
+            )}
+
+            {formError && <p className={styles.error}>{formError}</p>}
+            {successMessage && <p className={styles.success}>{successMessage}</p>}
+
+            <div className={styles.formActions}>
+              {editingId && (
+                <button type='button' className={styles.secondaryButton} onClick={resetForm}>
+                  Отменить
+                </button>
+              )}
+              <button type='submit' className={styles.primaryButton} disabled={saving}>
+                {saving ? 'Сохраняем...' : editingId ? 'Сохранить' : 'Добавить'}
+              </button>
+            </div>
+          </form>
+        </section>
         <section className={styles.listSection}>
           <div className={styles.sectionHeader}>
             <h2>Все камни</h2>
@@ -142,7 +198,7 @@ const AdminPage = () => {
                     <p className={styles.listItemTitle}>{rock.name || 'Без названия'}</p>
                     {rock.image && <p className={styles.listItemMeta}>{rock.image}</p>}
                   </div>
-                  <button type="button" className={styles.editButton} onClick={() => startEdit(rock)}>
+                  <button type='button' className={styles.editButton} onClick={() => startEdit(rock)}>
                     Редактировать
                   </button>
                 </li>
@@ -152,87 +208,9 @@ const AdminPage = () => {
             </ul>
           )}
         </section>
-
-        <section className={styles.formSection}>
-          <h2>{editingId ? 'Редактировать камень' : 'Добавить новый камень'}</h2>
-          <form className={styles.form} onSubmit={handleSubmit}>
-            {editingId && (
-              <label className={styles.label}>
-                ID
-                <input
-                  type="number"
-                  name="id"
-                  value={formValues.id}
-                  onChange={handleInputChange}
-                  placeholder="1"
-                  min="1"
-                />
-              </label>
-            )}
-
-            <label className={styles.label}>
-              Название
-              <input
-                type="text"
-                name="name"
-                value={formValues.name}
-                onChange={handleInputChange}
-                placeholder="Например, Аметист"
-              />
-            </label>
-
-            <label className={styles.label}>
-              Ссылка на изображение
-              <input
-                type="text"
-                name="image"
-                value={formValues.image}
-                onChange={handleInputChange}
-                placeholder="/images/rock1.png"
-              />
-            </label>
-
-            <label className={styles.label}>
-              Описание
-              <textarea
-                name="description"
-                value={formValues.description}
-                onChange={handleInputChange}
-                rows={6}
-                placeholder="Краткое описание минерала..."
-              />
-            </label>
-
-            <label className={styles.label}>
-              Путь к 3D модели (опционально)
-              <input
-                type="text"
-                name="modelPath"
-                value={formValues.modelPath}
-                onChange={handleInputChange}
-                placeholder="/models/amethyst.glb"
-              />
-            </label>
-
-            {formError && <p className={styles.error}>{formError}</p>}
-            {successMessage && <p className={styles.success}>{successMessage}</p>}
-
-            <div className={styles.formActions}>
-              {editingId && (
-                <button type="button" className={styles.secondaryButton} onClick={resetForm}>
-                  Отменить
-                </button>
-              )}
-              <button type="submit" className={styles.primaryButton} disabled={saving}>
-                {saving ? 'Сохраняем...' : editingId ? 'Сохранить' : 'Добавить'}
-              </button>
-            </div>
-          </form>
-        </section>
       </div>
     </div>
   );
 };
 
 export default AdminPage;
-

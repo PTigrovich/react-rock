@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ViewPage.module.scss';
 import { getRockById } from '../../api/rocksApi';
 import { sendReleCommand } from '../../utils';
+import ModelViewer from './Model/ModelViewer';
 
 const ViewPage = () => {
   const { id } = useParams();
@@ -67,10 +68,9 @@ const ViewPage = () => {
         </div>
 
         <div className={styles.gallery}>
-          <div
-            className={styles.gallery_view}
-            style={stone.image ? { backgroundImage: `url(${stone.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-          ></div>
+          <div className={styles.gallery_view}>
+            {(stone.modelPath || stone.image) && <ModelViewer modelPath={stone.modelPath || null} imagePath={stone.image || null} />}
+          </div>
 
           {open ? (
             <button className={styles.gallery_button} onClick={() => setOpen(false)}>

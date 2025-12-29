@@ -1,11 +1,11 @@
 .wrapper {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(#545454, #ffffff);
-  position: relative;
-  padding-bottom: 250px;
+  padding: 3vh 5vw;
+  gap: 4vh;
 }
 
 /* Контейнер блоков */
@@ -13,216 +13,164 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
+  gap: 4vh;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
+  flex: 1;
 }
 
 /* Верхний блок с названием */
 .block1 {
-  width: 1657px;
-  height: 750px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 30vh;
+  max-height: 50vh;
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 0 0 50px 50px;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  flex-shrink: 0;
-  margin-bottom: 650px;
+  padding-bottom: 5vh;
 }
 
 .block1Content {
   font-family: 'Futura PT', sans-serif;
   font-weight: 900;
-  font-size: 120px;
-  line-height: 90px;
+  font-size: clamp(40px, 10vw, 120px);
+  line-height: 1.1;
   color: #33231c;
   text-align: center;
-  padding-bottom: 100px;
+  padding: 0 2vw;
+  word-wrap: break-word;
 }
 
 /* Галерея */
 .gallery {
   width: 100%;
-  height: 1900px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3vh;
 }
 
 .gallery_view {
   width: 100%;
-  height: 1650px;
+  max-width: 100%;
+  min-height: 40vh;
+  max-height: 60vh;
   background-color: rgba(39, 230, 230, 0.336);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Основная кнопка (открыть описание / открыть 3D модель) */
 .gallery_button {
-  width: 603px;
-  height: 105px;
+  width: 100%;
+  max-width: 100%;
+  padding: 2.5vh 4vw;
   border-radius: 100px;
   background-color: #33231c;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: 40px;
-  line-height: 90px;
+  font-size: clamp(24px, 5vw, 40px);
   text-align: center;
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 130px auto 0;
 }
 
 /* Кнопка назад */
 .backButton {
-  width: 385px;
-  height: 105px;
+  width: 100%;
+  max-width: 100%;
+  padding: 2.5vh 4vw;
   border-radius: 100px;
   background-color: #33231c;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: 40px;
-  line-height: 90px;
+  font-size: clamp(24px, 5vw, 40px);
   text-align: center;
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: auto;
 }
 
 /* Оверлей */
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 50%;
-  margin-top: 50%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 20;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3vh 5vw;
+  overflow-y: auto;
 }
 
 /* Панель описания */
 .panel {
   position: relative;
-  width: 1750px;
-  height: 1220px;
+  width: 100%;
+  max-width: 100%;
+  max-height: 90vh;
   background: #ffffffc0;
   border-radius: 40px;
-  padding: 100px;
-  font-size: 45px;
-  line-height: 60px;
+  padding: 5vh 5vw;
+  font-size: clamp(24px, 5vw, 45px);
+  line-height: 1.4;
   font-family: 'Mulish', sans-serif;
   color: #33231c;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Tittle */
 h3 {
-  margin-bottom: 40px;
+  margin-bottom: 3vh;
+  font-size: clamp(28px, 6vw, 50px);
 }
 
 /* Крестик */
 .closeX {
   position: absolute;
-  top: 60px;
-  right: 60px;
-  width: 35px;
-  height: 35px;
+  top: 2vh;
+  right: 2vw;
+  width: auto;
+  height: auto;
   background: none;
   border: none;
-  font-size: 60px; /* увеличенный для жирности */
+  font-size: clamp(40px, 8vw, 60px);
   font-weight: 900;
   color: #33231c;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 1vh 1vw;
+  line-height: 1;
 }
 
 .status {
   font-family: 'Mulish', sans-serif;
-  font-size: 48px;
+  font-size: clamp(28px, 6vw, 48px);
   color: #ffffff;
   text-align: center;
-  margin-top: 400px;
-}
-
-/* Адаптивность для больших экранов */
-@media (min-width: 2560px) {
-  .block1 {
-    width: 2000px;
-    height: 900px;
-    margin-bottom: 800px;
-  }
-
-  .block1Content {
-    font-size: 140px;
-    line-height: 100px;
-    padding-bottom: 120px;
-  }
-
-  .gallery {
-    height: 2200px;
-  }
-
-  .gallery_view {
-    height: 1800px;
-  }
-
-  .gallery_button {
-    width: 700px;
-    height: 120px;
-    font-size: 48px;
-    margin: 160px auto 0;
-  }
-
-  .backButton {
-    width: 450px;
-    height: 120px;
-    font-size: 48px;
-    bottom: 140px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .overlay {
-    width: 100%;
-    height: 60%;
-    margin-top: 40%;
-  }
-
-  .panel {
-    width: 2000px;
-    height: 1400px;
-    padding: 120px;
-    font-size: 50px;
-    line-height: 70px;
-  }
-
-  .closeX {
-    top: 70px;
-    right: 70px;
-    font-size: 70px;
-  }
-
-  h3 {
-    margin-bottom: 50px;
-  }
-
-  .status {
-    font-size: 60px;
-    margin-top: 500px;
-  }
+  margin-top: 20vh;
 }

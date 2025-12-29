@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import HomePage from './components/home/HomePage';
 import ViewPage from './components/view/ViewPage';
 import AdminPage from './components/admin/AdminPage';
-import './App.css';
 
 function App() {
   const navigate = useNavigate();
