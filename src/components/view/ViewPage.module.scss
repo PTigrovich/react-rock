@@ -71,14 +71,14 @@
 /* Основная кнопка (открыть описание / открыть 3D модель) */
 .gallery_button {
   width: 100%;
-  max-width: 100%;
-  padding: 2.5vh 4vw;
+  max-width: 40%;
+  padding: 1vh 4vw;
   border-radius: 100px;
   background-color: #33231c;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: clamp(24px, 5vw, 40px);
+  font-size: 24px;
   text-align: center;
   border: none;
   cursor: pointer;
@@ -90,21 +90,21 @@
 /* Кнопка назад */
 .backButton {
   width: 100%;
-  max-width: 100%;
-  padding: 2.5vh 4vw;
+  max-width: 40%;
+  padding: 1vh 4vw;
   border-radius: 100px;
   background-color: #33231c;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
-  font-size: clamp(24px, 5vw, 40px);
+  font-size: 24px;
   text-align: center;
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
+  margin: 0 auto;
 }
 
 /* Оверлей */
