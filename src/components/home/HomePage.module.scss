@@ -44,18 +44,27 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5vh 1vw;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5vh 0;
   width: 100%;
   max-width: 100%;
   align-items: start;
-  padding-right: 10vw;
 }
 
-/* Шахматный порядок: смещаем нечётные строки (3-й, 4-й, 7-й, 8-й элементы и т.д.) */
-.grid > *:nth-child(4n + 3),
+/* Шахматный порядок: 2 карточки в строку, чередуя позиции */
+/* Нечётные строки: 1-я и 3-я колонки */
+.grid > *:nth-child(4n + 1) {
+  grid-column: 1;
+}
+.grid > *:nth-child(4n + 2) {
+  grid-column: 3;
+}
+/* Чётные строки: 2-я и 4-я колонки */
+.grid > *:nth-child(4n + 3) {
+  grid-column: 2;
+}
 .grid > *:nth-child(4n + 4) {
-  margin-left: calc(25% + 1vw);
+  grid-column: 4;
 }
 
 .status {
