@@ -26,7 +26,7 @@
   align-items: center;
   width: 100%;
   max-width: 100%;
-  gap: .5vh;
+  gap: 0.5vh;
   flex: 1;
 }
 
@@ -40,7 +40,6 @@
   line-height: 1.1;
   width: 100%;
   max-width: 100%;
-  
 }
 
 .grid {
@@ -54,14 +53,14 @@
 }
 
 /* Шахматный порядок: смещаем нечётные строки (3-й, 4-й, 7-й, 8-й элементы и т.д.) */
-.grid > *:nth-child(4n+3),
-.grid > *:nth-child(4n+4) {
+.grid > *:nth-child(4n + 3),
+.grid > *:nth-child(4n + 4) {
   margin-left: calc(25% + 1vw);
 }
 
 .status {
   font-family: 'Mulish', sans-serif;
-  font-size: clamp(20px, 4.5vw, 32px);
+  font-size: 20px;
   color: #fff;
   text-align: center;
   display: flex;
@@ -76,8 +75,8 @@
   padding: 2vh 4vw;
   border-radius: 60px;
   background-color: #ffffff;
-  color: #33231C;
-  font-size: clamp(20px, 4vw, 28px);
+  color: #33231c;
+  font-size: 20px;
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -104,7 +103,7 @@
   width: 30%;
   padding: 1vh 4vw;
   border-radius: 100px;
-  background-color: #33231C;
+  background-color: #33231c;
   color: #fff;
   font-family: 'Mulish', sans-serif;
   font-weight: 400;
@@ -112,7 +111,7 @@
   text-align: center;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,11 +120,11 @@
 
   &:hover {
     transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   }
 }
 
 .adminLink {
   background-color: #ffffff;
-  color: #33231C;
+  color: #33231c;
 }
