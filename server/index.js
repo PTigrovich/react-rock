@@ -11,6 +11,7 @@ const serverSetup = new ServerSetup();
 
 // Получаем пути из ServerSetup
 const DATA_FILE = serverSetup.getDataFile();
+const CONFIG_FILE = path.join(path.dirname(DATA_FILE), 'config.json');
 
 // Middleware
 app.use(cors());
@@ -33,6 +34,21 @@ async function initializeData() {
   } catch (error) {
     console.error('❌ Ошибка инициализации данных:', error);
     console.error('❌ Путь к файлу:', DATA_FILE);
+  }
+}
+
+// Чтение конфига из файла
+async function readConfig() {
+  try {
+    const exists = await fs.pathExists(CONFIG_FILE);
+    if (exists) {
+      const data = await fs.readJson(CONFIG_FILE);
+      return data;
+    }
+    return { checkerboardStart: 'right' };
+  } catch (error) {
+    console.warn('⚠️  Ошибка чтения конфига, используются значения по умолчанию:', error.message);
+    return { checkerboardStart: 'right' };
   }
 }
 
@@ -66,6 +82,16 @@ async function writeRocks(rocks) {
 }
 
 // API Routes
+
+// GET /api/config - получить конфиг приложения
+app.get('/api/config', async (req, res) => {
+  try {
+    const config = await readConfig();
+    res.json(config);
+  } catch (error) {
+    res.status(500).json({ error: 'Ошибка получения конфига' });
+  }
+});
 
 // GET /api/rocks - получить все камни
 app.get('/api/rocks', async (req, res) => {

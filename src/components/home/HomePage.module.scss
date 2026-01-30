@@ -51,20 +51,32 @@
   align-items: start;
 }
 
-/* Шахматный порядок: 2 карточки в строку, чередуя позиции */
-/* Нечётные строки: 1-я и 3-я колонки */
-.grid > *:nth-child(4n + 1) {
+/* Шахматный порядок: первая строка влево (колонки 1 и 3) */
+.checkerboardLeft > *:nth-child(4n + 1) {
   grid-column: 1;
 }
-.grid > *:nth-child(4n + 2) {
+.checkerboardLeft > *:nth-child(4n + 2) {
   grid-column: 3;
 }
-/* Чётные строки: 2-я и 4-я колонки */
-.grid > *:nth-child(4n + 3) {
+.checkerboardLeft > *:nth-child(4n + 3) {
   grid-column: 2;
 }
-.grid > *:nth-child(4n + 4) {
+.checkerboardLeft > *:nth-child(4n + 4) {
   grid-column: 4;
+}
+
+/* Шахматный порядок: первая строка вправо (колонки 2 и 4) */
+.checkerboardRight > *:nth-child(4n + 1) {
+  grid-column: 2;
+}
+.checkerboardRight > *:nth-child(4n + 2) {
+  grid-column: 4;
+}
+.checkerboardRight > *:nth-child(4n + 3) {
+  grid-column: 1;
+}
+.checkerboardRight > *:nth-child(4n + 4) {
+  grid-column: 3;
 }
 
 .status {

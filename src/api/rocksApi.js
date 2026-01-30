@@ -31,6 +31,26 @@ export function getRocks() {
   return request('/api/rocks');
 }
 
+/** Загружает конфиг приложения (из public/data/config.json при dev или с API) */
+export async function getConfig() {
+  try {
+    const base = process.env.REACT_APP_API_BASE_URL || '';
+    const url = base ? `${base.replace(/\/$/, '')}/api/config` : '/data/config.json';
+    const res = await fetch(url);
+    if (!res.ok) return getDefaultConfig();
+    const data = await res.json();
+    return { ...getDefaultConfig(), ...data };
+  } catch {
+    return getDefaultConfig();
+  }
+}
+
+function getDefaultConfig() {
+  return {
+    checkerboardStart: 'right', // 'left' | 'right' — с какой стороны первая строка сетки
+  };
+}
+
 export function getRockById(id) {
   return request(`/api/rocks/${id}`);
 }

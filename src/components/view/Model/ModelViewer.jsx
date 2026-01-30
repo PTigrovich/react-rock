@@ -1,8 +1,24 @@
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useTexture, Html } from '@react-three/drei';
-import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './ModelViewer.module.css';
+
+// Проверяем, что по URL отдаётся реальная модель (не 404 и не HTML)
+async function isModelUrlValid(url) {
+  try {
+    let res = await fetch(url, { method: 'HEAD' });
+    if (res.status === 405) {
+      res = await fetch(url);
+    }
+    if (!res.ok) return false;
+    const ct = (res.headers.get('Content-Type') || '').toLowerCase();
+    if (ct.includes('text/html')) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 // 3D Model Component
 function RockModel({ modelPath }) {
@@ -33,6 +49,22 @@ function FallbackModel({ color = '#ffd700' }) {
 
 const ModelViewer = ({ modelPath, imagePath, fallbackColor = '#ffd700' }) => {
   const controlsRef = useRef();
+  const [modelUrlValid, setModelUrlValid] = useState(null);
+
+  useEffect(() => {
+    if (!modelPath) {
+      setModelUrlValid(null);
+      return;
+    }
+    let cancelled = false;
+    setModelUrlValid(null);
+    isModelUrlValid(modelPath).then((valid) => {
+      if (!cancelled) setModelUrlValid(valid);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [modelPath]);
 
   const handleRotate = (direction) => {
     if (!controlsRef.current) return;
@@ -61,7 +93,15 @@ const ModelViewer = ({ modelPath, imagePath, fallbackColor = '#ffd700' }) => {
   };
 
   const renderModel = () => {
-    if (modelPath) return <RockModel modelPath={modelPath} />;
+    if (modelPath) {
+      if (modelUrlValid === null) {
+        return imagePath ? <ImageModel imagePath={imagePath} /> : <FallbackModel color={fallbackColor} />;
+      }
+      if (modelUrlValid === false) {
+        return imagePath ? <ImageModel imagePath={imagePath} /> : <FallbackModel color={fallbackColor} />;
+      }
+      return <RockModel modelPath={modelPath} />;
+    }
     if (imagePath) return <ImageModel imagePath={imagePath} />;
     return <FallbackModel color={fallbackColor} />;
   };

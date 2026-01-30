@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../card/Card';
 import styles from './HomePage.module.scss';
-import { getRocks } from '../../api/rocksApi';
+import { getRocks, getConfig } from '../../api/rocksApi';
 import { sendReleCommand } from '../../utils';
 
 const HomePage = () => {
@@ -10,6 +10,7 @@ const HomePage = () => {
     const [rocks, setRocks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [config, setConfig] = useState({ checkerboardStart: 'right' });
 
     const loadRocks = useCallback(async () => {
         setLoading(true);
@@ -27,6 +28,7 @@ const HomePage = () => {
 
     useEffect(() => {
         loadRocks();
+        getConfig().then(setConfig);
         // В главном меню включаем общую подсветку (позиция 17)
         sendReleCommand(17);
     }, [loadRocks]);
@@ -60,7 +62,11 @@ const HomePage = () => {
                 )}
 
                 {!loading && !error && hasRocks && (
-                    <div className={styles.grid}>
+                    <div
+                        className={`${styles.grid} ${
+                            config.checkerboardStart === 'left' ? styles.checkerboardLeft : styles.checkerboardRight
+                        }`}
+                    >
                         {rocks.map((stone, index) => (
                             <Card key={stone.id} stone={stone} index={index} />
                         ))}
