@@ -14,7 +14,7 @@ const CONFIG = {
   // Режим kiosk (полноэкранный режим)
   // false - обычный режим с доступом к DevTools
   // true - полноэкранный kiosk режим (DevTools недоступны)
-  kioskMode: false,
+  kioskMode: true,
 
   // Автоматически открывать браузер при запуске
   openBrowser: true,

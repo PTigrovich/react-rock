@@ -1,0 +1,44 @@
+.wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Mulish', sans-serif;
+  font-size: 24px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Показываем подсказку, если видео не загрузилось */
+.wrapper:not(.videoLoaded) .fallback {
+  visibility: visible;
+}
+
+.wrapper.videoLoaded .fallback {
+  visibility: hidden;
+}
