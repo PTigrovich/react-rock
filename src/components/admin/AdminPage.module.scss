@@ -266,3 +266,11 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+.previewHint {
+  font-size: clamp(14px, 3vw, 18px);
+  opacity: 0.6;
+  font-style: italic;
+  text-align: center;
+  padding: 2vh 0;
+}
+

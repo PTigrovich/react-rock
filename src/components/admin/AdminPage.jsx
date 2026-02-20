@@ -1,8 +1,25 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './AdminPage.module.scss';
 import { createRock, getRocks, updateRock } from '../../api/rocksApi';
 import ModelViewer from '../view/Model/ModelViewer';
+
+// Хук для debounce значения
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 const emptyForm = {
   name: '',
@@ -10,6 +27,23 @@ const emptyForm = {
   description: '',
   modelPath: '',
 };
+
+// Проверка валидности пути к изображению
+function isValidImagePath(path) {
+  if (!path || typeof path !== 'string') return false;
+  const trimmed = path.trim();
+  if (trimmed.length < 5) return false;
+  // Проверяем что путь заканчивается на расширение изображения
+  return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(trimmed);
+}
+
+// Проверка валидности пути к модели
+function isValidModelPath(path) {
+  if (!path || typeof path !== 'string') return false;
+  const trimmed = path.trim();
+  if (trimmed.length < 5) return false;
+  return /\.(glb|gltf)$/i.test(trimmed);
+}
 
 const AdminPage = () => {
   const [rocks, setRocks] = useState([]);
@@ -20,6 +54,23 @@ const AdminPage = () => {
   const [formError, setFormError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [saving, setSaving] = useState(false);
+  
+  // Debounce путей для превью (500мс задержка)
+  const debouncedImagePath = useDebounce(formValues.image, 500);
+  const debouncedModelPath = useDebounce(formValues.modelPath, 500);
+  
+  // Валидированные пути для превью
+  const previewImagePath = useMemo(() => {
+    const path = debouncedImagePath?.trim();
+    return isValidImagePath(path) ? path : null;
+  }, [debouncedImagePath]);
+  
+  const previewModelPath = useMemo(() => {
+    const path = debouncedModelPath?.trim();
+    return isValidModelPath(path) ? path : null;
+  }, [debouncedModelPath]);
+  
+  const showPreview = previewImagePath || previewModelPath;
 
   const loadRocks = useCallback(async () => {
     setLoading(true);
@@ -157,12 +208,20 @@ const AdminPage = () => {
               <input type='text' name='modelPath' value={formValues.modelPath} onChange={handleInputChange} placeholder='/models/amethyst.glb' />
             </label>
 
-            {(formValues.modelPath?.trim() || formValues.image?.trim()) && (
+            {showPreview && (
               <div className={styles.preview}>
                 <h3 className={styles.previewTitle}>Превью</h3>
                 <div className={styles.previewContainer}>
-                  <ModelViewer modelPath={formValues.modelPath?.trim() || null} imagePath={formValues.image?.trim() || null} />
+                  <ModelViewer modelPath={previewModelPath} imagePath={previewImagePath} />
                 </div>
+              </div>
+            )}
+            
+            {(formValues.image?.trim() || formValues.modelPath?.trim()) && !showPreview && (
+              <div className={styles.preview}>
+                <p className={styles.previewHint}>
+                  Превью появится после ввода полного пути к файлу (.png, .jpg, .webp, .glb, .gltf)
+                </p>
               </div>
             )}
 
